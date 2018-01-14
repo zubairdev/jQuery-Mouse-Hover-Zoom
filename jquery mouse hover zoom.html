@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script
+  src="https://code.jquery.com/jquery-1.12.4.min.js"
+  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+
+	<style type="text/css">
+		.zoomed {z-index: 11111111;position: absolute;border: 1px solid gray;}
+		.mycontainer {display: inline-block;border: 1px solid;width: 400px;}
+		.mycontainer img {display: block;width: 100%;}
+	</style>
+
+	<div class="mycontainer">
+		<img src="http://dronesdistributionsrl.com/wp-content/uploads/2017/10md820zma-apple-iphone-5-5s-6-6-plus-lightning-to-micro-usb-adapter_.jpg">
+	</div>
+
+	<script type="text/javascript">
+		
+
+     jQuery.fn.extend({
+
+          Imagezomm : function (){
+          return $(this).each(function(k,v){
+            $( $(v).find("img")).wrap("<div class='container'></div>");
+
+            var ths = $(v).find(".container");
+            var img = ths.children("img");
+
+            var zoomed = null;
+            img.on( "mousemove",function(e){
+
+                if ( !zoomed ) {
+                    ths.append("<div class='zoomed' style='width:350px;height:350px;top:"+(e.pageY- ths.offset().left )+"px;left:"+(e.pageX- ths.offset().left)+"px;background:url(" + img.attr("src") +")'></div>");
+                    zoomed = ths.find(".zoomed");
+                }
+                zoomed.css({
+                  top:((e.pageY- ths.offset().top)+20)+"px",
+                  left:((e.pageX- ths.offset().left)+20)+"px",
+                  backgroundRepeat:"no-repeat",
+                  backgroundPositionY: ( ((e.pageY- ths.offset().top) / ths.height())*130) + "% ",
+                  backgroundPositionX: (((e.pageX- ths.offset().left ) /  ths.width())*130) + "% " 
+                })
+              
+                ths.find(".zoomed").on( "mouseover",function(e){ if (zoomed) { zoomed.remove();zoomed=null;}  })
+
+            });
+
+            ths.on( "mouseleave",function(e){
+              if (zoomed) { zoomed.remove();zoomed=null;}
+             });
+            
+
+          });
+
+      }
+      
+
+     });
+
+     $(document).ready(function(){
+     	$(".mycontainer").Imagezomm();	
+     })
+     
+
+
+	</script>
+</body>
+</html>
